@@ -1,21 +1,20 @@
-package com.example.userservice.model;
+package com.example.userservice.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
-@Entity
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class User {
-    @Id
+@NoArgsConstructor
+public class UserDto {
     private int id;
+    @NotNull
     private String name;
+    @NotNull
     private String lastName;
 }
