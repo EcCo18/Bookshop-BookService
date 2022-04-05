@@ -1,6 +1,6 @@
 package com.example.userservice.controller;
 
-import com.example.userservice.mapper.UserMapper;
+import com.example.userservice.services.mapper.UserMapper;
 import com.example.userservice.model.User;
 import com.example.userservice.model.dto.UserDto;
 import com.example.userservice.services.UserService;
@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,9 +27,9 @@ public class UserController {
     }
 
     @PostMapping()
-    public User postUser(@RequestBody UserDto postedUser) {
+    public UserDto postUser(@Valid @RequestBody UserDto postedUser) {
         log.info("Received POST for user");
-
-        return null;
+        User createdUser = userService.createUser(userMapper.mapDtoToUser(postedUser));
+        return userMapper.mapUserToDto(createdUser);
     }
  }

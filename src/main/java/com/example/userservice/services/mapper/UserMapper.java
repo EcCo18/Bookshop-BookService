@@ -1,4 +1,4 @@
-package com.example.userservice.mapper;
+package com.example.userservice.services.mapper;
 
 import com.example.userservice.model.User;
 import com.example.userservice.model.dto.UserDto;
