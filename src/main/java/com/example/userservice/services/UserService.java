@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -23,6 +24,18 @@ public class UserService {
         userMetricService.processReceived();
         // log.debug("getAllUsers called returning: " + Arrays.toString(users.toArray()));
         return users;
+    }
+
+    public Optional<User> getUserById(int userId) {
+        log.debug("getting user with id: " + userId);
+        Optional<User> foundUser = userRepository.findById(userId);
+
+        if (foundUser.isPresent()) {
+            log.debug("found user: " + foundUser.get());
+        } else {
+            log.debug("user with id: " + userId + "could not be found");
+        }
+        return foundUser;
     }
 
     public User createUser(User user) {

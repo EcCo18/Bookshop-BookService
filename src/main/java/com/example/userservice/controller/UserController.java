@@ -27,6 +27,13 @@ public class UserController {
         return ResponseEntity.ok(userMapper.mapUserListToDtoList(userService.getAllUser()));
     }
 
+    // ToDo finish
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable("userId") int userId) {
+        log.info("received GET for user with id: " + userId);
+        return null;
+    }
+
     @PostMapping()
     public ResponseEntity<UserDto> postUser(@Valid @RequestBody UserDto postedUser) {
         log.info("Received POST for user");
