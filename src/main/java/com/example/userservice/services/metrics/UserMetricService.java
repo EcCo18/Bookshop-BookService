@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class UserMetricService {
 
     private Counter userCreatedCounter;
+    private Counter userReceivedCounter;
     private final MeterRegistry meterRegistry;
 
     @Autowired
@@ -22,15 +23,21 @@ public class UserMetricService {
 
     private void initUserCounters() {
         log.info("init all user counters");
-        this.userCreatedCounter = Counter.builder("users.created")
+        userCreatedCounter = Counter.builder("users.created")
                 .description("Number of users created")
+                .register(meterRegistry);
+        userReceivedCounter = Counter.builder("users.received")
+                .description("Number of times all users were received")
                 .register(meterRegistry);
     }
 
-    public User processCreation(final User createdUser) {
+    public void processCreation(final User createdUser) {
         log.debug("incrementing user created counter, then returning createdUserObject: " + createdUser);
         userCreatedCounter.increment();
+    }
 
-        return createdUser;
+    public void processReceived() {
+        log.debug("incrementing all users received counter");
+        userReceivedCounter.increment();
     }
 }

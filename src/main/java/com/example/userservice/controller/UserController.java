@@ -6,6 +6,7 @@ import com.example.userservice.model.dto.UserDto;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,15 +22,16 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping()
-    public List<UserDto> getAllUser() {
+    public ResponseEntity<List<UserDto>> getAllUser() {
         log.info("Received GET for all users");
-        return userMapper.mapUserListToDtoList(userService.getAllUser());
+        return ResponseEntity.ok(userMapper.mapUserListToDtoList(userService.getAllUser()));
     }
 
     @PostMapping()
-    public UserDto postUser(@Valid @RequestBody UserDto postedUser) {
+    public ResponseEntity<UserDto> postUser(@Valid @RequestBody UserDto postedUser) {
         log.info("Received POST for user");
+        log.debug(postedUser.toString());
         User createdUser = userService.createUser(userMapper.mapDtoToUser(postedUser));
-        return userMapper.mapUserToDto(createdUser);
+        return ResponseEntity.ok(userMapper.mapUserToDto(createdUser));
     }
  }

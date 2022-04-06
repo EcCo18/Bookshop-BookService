@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -20,14 +18,16 @@ public class UserService {
     private final UserRepository userRepository;
 
     public List<User> getAllUser() {
+        log.debug("get all users called");
         List<User> users = userRepository.findAll();
-        log.debug("getAllUsers called returning: " + Arrays.toString(users.toArray()));
+        userMetricService.processReceived();
+        // log.debug("getAllUsers called returning: " + Arrays.toString(users.toArray()));
         return users;
     }
 
     public User createUser(User user) {
-        userMetricService.processCreation(user);
         User createdUser = userRepository.save(user);
+        userMetricService.processCreation(user);
         log.debug("User created: " + user);
         return createdUser;
     }
