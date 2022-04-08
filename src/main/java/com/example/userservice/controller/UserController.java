@@ -27,11 +27,12 @@ public class UserController {
         return ResponseEntity.ok(userMapper.mapUserListToDtoList(userService.getAllUser()));
     }
 
-    // ToDo finish
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUserById(@PathVariable("userId") int userId) {
         log.info("received GET for user with id: " + userId);
-        return null;
+        return userService.getUserById(userId)
+                .map(user -> ResponseEntity.ok(userMapper.mapUserToDto(user)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping()
