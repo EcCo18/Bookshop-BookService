@@ -1,6 +1,8 @@
 server:
   port: 8081
 spring:
+  main:
+    banner-mode: off
   application:
     name: spring_boockshop_user_service
   h2:
@@ -9,10 +11,11 @@ spring:
   datasource:
     url: jdbc:h2:mem:dcbapp
     driver-class-name: org.h2.Driver
-    username: sa
-    password: password
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: true
 management:
   endpoints:
     web:
