@@ -18,6 +18,8 @@ public class UserDto {
     @NotEmpty
     private String name;
     @NotEmpty
+    private String surname;
+    @NotEmpty
     private String lastName;
     @NotNull
     private Role role;
