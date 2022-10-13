@@ -18,7 +18,6 @@ public class UserMapper {
                 .id(user.getId())
                 .name(user.getName())
                 .surname(user.getSurname())
-                .lastName(user.getLastName())
                 .role(user.getRole())
                 .build();
     }
@@ -34,7 +33,6 @@ public class UserMapper {
                 .id(userDto.getId())
                 .name(userDto.getName())
                 .surname(userDto.getSurname())
-                .lastName(userDto.getLastName())
                 .role(userDto.getRole())
                 .build();
     }
