@@ -6,9 +6,7 @@ import com.example.userservice.services.metrics.UserMetricService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,10 +17,12 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserMetricService userMetricService;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
     public List<User> getAllUser() {
@@ -44,27 +44,23 @@ public class UserService implements UserDetailsService {
         return foundUser;
     }
 
+    public Optional<User> getUserByUsername(String username) {
+        log.debug("getting user with username: " + username);
+        Optional<User> foundUser = userRepository.findUserByUsername(username);
+
+        if (foundUser.isPresent()) {
+            log.debug("found user: " + foundUser.get());
+        } else {
+            log.warn("user with username: " + username + "could not be found");
+        }
+        return foundUser;
+    }
+
     public User createUser(User user) {
+        user.setHashedPassword(passwordEncoder.encode(user.getHashedPassword()));
         User createdUser = userRepository.save(user);
         userMetricService.processCreation(user);
         log.debug("User created: " + user);
         return createdUser;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByUsername(username);
-        if (user == null) {
-            String errorMessage = "couldn't find user: " + username;
-            log.warn(errorMessage);
-            throw new UsernameNotFoundException(errorMessage);
-        } else {
-            log.info("user {} fetched from db", username);
-            return new org.springframework.security.core.userdetails.User(
-                    user.getUsername(),
-                    user.getPassword(),
-                    authorities
-            );
-        }
     }
 }
