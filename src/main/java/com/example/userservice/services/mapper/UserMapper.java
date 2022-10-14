@@ -2,6 +2,8 @@ package com.example.userservice.services.mapper;
 
 import com.example.userservice.model.User;
 import com.example.userservice.model.dto.UserDto;
+import com.example.userservice.services.UserUtilService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,10 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserMapper {
+
+    private final UserUtilService userUtilService;
 
     public UserDto mapUserToDto(User user) {
         log.debug("mapping user to dto: " + user);
@@ -19,6 +24,7 @@ public class UserMapper {
                 .name(user.getName())
                 .surname(user.getSurname())
                 .role(user.getRole())
+                .username(userUtilService.createUserName(user.getName(), user.getSurname()))
                 .build();
     }
 
@@ -34,6 +40,8 @@ public class UserMapper {
                 .name(userDto.getName())
                 .surname(userDto.getSurname())
                 .role(userDto.getRole())
+                .username(userUtilService.createUserName(userDto.getName(), userDto.getSurname()))
+                .hashedPassword(userDto.getPassword())
                 .build();
     }
 
