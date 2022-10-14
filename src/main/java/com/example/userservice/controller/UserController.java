@@ -1,9 +1,9 @@
 package com.example.userservice.controller;
 
-import com.example.userservice.services.mapper.UserMapper;
 import com.example.userservice.model.User;
 import com.example.userservice.model.dto.UserDto;
 import com.example.userservice.services.UserService;
+import com.example.userservice.services.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -35,11 +35,17 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping()
+    @PostMapping("/register")
     public ResponseEntity<UserDto> postUser(@Valid @RequestBody UserDto postedUser) {
         log.info("Received POST for user");
         log.debug(postedUser.toString());
         User createdUser = userService.createUser(userMapper.mapDtoToUser(postedUser));
         return ResponseEntity.ok(userMapper.mapUserToDto(createdUser));
+    }
+
+    // ToDo to be done
+    @PostMapping("/login")
+    public String loginUser(@Valid @RequestBody UserDto postedUser) {
+        return "hello";
     }
  }
