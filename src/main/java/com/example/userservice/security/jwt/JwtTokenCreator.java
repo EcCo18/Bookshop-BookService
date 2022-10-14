@@ -29,9 +29,9 @@ public class JwtTokenCreator {
             SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
 
             String jwt_token = Jwts.builder()
-                    .setIssuer("javainfinite")
+                    .setIssuer("book-management")
                     .setExpiration(new Date((new Date()).getTime() + 300000))
-                    .setSubject("javainfinite_token")
+                    .setSubject("book_management_token")
                     .claim("username", username)
                     .claim("authorities", getStudentRoles((List<GrantedAuthority>) authentication.getAuthorities()))
                     .signWith(key)
