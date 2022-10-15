@@ -29,8 +29,10 @@ public class JwtTokenValidator {
 
         log.info("Authorization Token: {}", token);
 
-        if (token != null && !token.contains("Basic")) {
+        if (token != null && token.contains(SecurityConstants.JWT_PREFIX)) {
             try {
+                token = token.replace(SecurityConstants.JWT_PREFIX, "");
+
                 SecretKey key = Keys.hmacShaKeyFor(
                         SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
 
@@ -54,7 +56,6 @@ public class JwtTokenValidator {
                 throw new BadCredentialsException("Invalid Token received!");
             }
         }
-
     }
 
     private List<GrantedAuthority> getStudentRoles(String authorities) {

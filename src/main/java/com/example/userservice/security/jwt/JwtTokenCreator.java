@@ -24,18 +24,24 @@ public class JwtTokenCreator {
         //Get the username from authentication object
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        // ToDo check for header with token
         if (authentication != null) { //verify whether user is authenticated
             String username = authentication.getName();
             SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
 
-            String jwt_token = Jwts.builder()
-                    .setIssuer("book-management")
-                    .setExpiration(new Date((new Date()).getTime() + 300000))
-                    .setSubject("book_management_token")
-                    .claim("username", username)
-                    //.claim("authorities", getStudentRoles((List<GrantedAuthority>) authentication.getAuthorities()))
-                    .signWith(key)
-                    .compact();
+            if(!request.getHeader(SecurityConstants.AUTHORIZATION_HEADER).contains(SecurityConstants.JWT_PREFIX)) {
+                String jwt_token = Jwts.builder()
+                        .setIssuer("book-management")
+                        .setExpiration(new Date((new Date()).getTime() + 300000))
+                        .setSubject("book_management_token")
+                        .claim("username", username)
+                        //.claim("authorities", getStudentRoles((List<GrantedAuthority>) authentication.getAuthorities()))
+                        .signWith(key)
+                        .compact();
+
+                response.setHeader(SecurityConstants.AUTHORIZATION_HEADER, SecurityConstants.JWT_PREFIX + jwt_token);
+                log.info("Token successfully generated: {}", jwt_token);
+            }
 
             if (request.getHeader(SecurityConstants.REFRESH_HEADER) == null) {
 
@@ -51,8 +57,6 @@ public class JwtTokenCreator {
                 response.setHeader(SecurityConstants.REFRESH_HEADER, refresh_token);
                 log.info("Refresh Token successfully generated: {}", refresh_token);
             }
-            response.setHeader(SecurityConstants.AUTHORIZATION_HEADER, jwt_token);
-            log.info("Token successfully generated: {}", jwt_token);
         }
     }
 
