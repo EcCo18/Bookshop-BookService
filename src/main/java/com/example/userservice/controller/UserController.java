@@ -7,6 +7,7 @@ import com.example.userservice.services.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -43,9 +44,9 @@ public class UserController {
         return ResponseEntity.ok(userMapper.mapUserToDto(createdUser));
     }
 
-    // ToDo to be done
     @PostMapping("/login")
-    public String loginUser(@Valid @RequestBody UserDto postedUser) {
-        return "hello";
+    public ResponseEntity<String> loginUser() {
+        return ResponseEntity.ok("successfully logged in user " +
+                SecurityContextHolder.getContext().getAuthentication().getName());
     }
  }
