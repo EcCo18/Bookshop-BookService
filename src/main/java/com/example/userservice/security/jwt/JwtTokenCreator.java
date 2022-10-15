@@ -33,7 +33,7 @@ public class JwtTokenCreator {
                     .setExpiration(new Date((new Date()).getTime() + 300000))
                     .setSubject("book_management_token")
                     .claim("username", username)
-                    .claim("authorities", getStudentRoles((List<GrantedAuthority>) authentication.getAuthorities()))
+                    //.claim("authorities", getStudentRoles((List<GrantedAuthority>) authentication.getAuthorities()))
                     .signWith(key)
                     .compact();
 
@@ -44,7 +44,7 @@ public class JwtTokenCreator {
                         .setExpiration(new Date((new Date()).getTime() + 3000000))
                         .setSubject("javainfinite_token")
                         .claim("username", username)
-                        .claim("authorities", getStudentRoles((List<GrantedAuthority>) authentication.getAuthorities()))
+                        //.claim("authorities", getStudentRoles((List<GrantedAuthority>) authentication.getAuthorities()))
                         .signWith(key)
                         .compact();
 

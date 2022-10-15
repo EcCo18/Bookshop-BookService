@@ -5,12 +5,9 @@ import com.example.userservice.repos.UserRepository;
 import com.example.userservice.services.metrics.UserMetricService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +19,6 @@ public class UserService {
     private final UserMetricService userMetricService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
     public List<User> getAllUser() {
         log.debug("get all users called");

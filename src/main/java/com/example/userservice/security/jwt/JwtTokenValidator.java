@@ -41,10 +41,10 @@ public class JwtTokenValidator {
                         .getBody();
 
                 String username = String.valueOf(claims.get("username"));
-                String authorities = (String) claims.get("authorities");
+                //String authorities = (String) claims.get("authorities");
 
                 Authentication auth = new UsernamePasswordAuthenticationToken(username, null,
-                        getStudentRoles(authorities));
+                        null);
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (ExpiredJwtException ex) {
