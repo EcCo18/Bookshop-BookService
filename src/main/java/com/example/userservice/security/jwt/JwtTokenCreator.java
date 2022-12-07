@@ -24,7 +24,6 @@ public class JwtTokenCreator {
         //Get the username from authentication object
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // ToDo check for header with token
         if (authentication != null) { //verify whether user is authenticated
             String username = authentication.getName();
             SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
@@ -46,9 +45,9 @@ public class JwtTokenCreator {
             if (request.getHeader(SecurityConstants.REFRESH_HEADER) == null) {
 
                 String refresh_token = Jwts.builder()
-                        .setIssuer("javainfinite")
+                        .setIssuer("book-management")
                         .setExpiration(new Date((new Date()).getTime() + 3000000))
-                        .setSubject("javainfinite_token")
+                        .setSubject("book_management_refresh_token")
                         .claim("username", username)
                         //.claim("authorities", getStudentRoles((List<GrantedAuthority>) authentication.getAuthorities()))
                         .signWith(key)

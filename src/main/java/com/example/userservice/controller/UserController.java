@@ -36,6 +36,14 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // ToDo
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<UserDto> deleteUserById(@PathVariable("userId") int userId) {
+        log.info("received DELETE for user with id: " + userId);
+
+        return null;
+    }
+
     @PostMapping("/register")
     public ResponseEntity<UserDto> postUser(@Valid @RequestBody UserDto postedUser) {
         log.info("Received POST for user");
@@ -49,4 +57,7 @@ public class UserController {
         return ResponseEntity.ok("successfully logged in user " +
                 SecurityContextHolder.getContext().getAuthentication().getName());
     }
+
+    //@PostMapping("/refreshToken")
+    //public ResponseEntity<String>
  }
