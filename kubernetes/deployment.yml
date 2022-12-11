@@ -52,3 +52,21 @@ spec:
     - protocol: TCP
       nodePort: 30082
       port: 8081
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-user-service
+spec:
+  rules:
+    - host: demo.localdev.me
+      http:
+        paths:
+          - path: /api/v1/users
+            backend:
+              service:
+                name: user-app-service
+                port:
+                  number: 80
+            pathType: Prefix
+  ingressClassName: nginx
