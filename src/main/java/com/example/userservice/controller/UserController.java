@@ -36,12 +36,14 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // ToDo
     @DeleteMapping("/{userId}")
     public ResponseEntity<UserDto> deleteUserById(@PathVariable("userId") int userId) {
         log.info("received DELETE for user with id: " + userId);
-
-        return null;
+        return ResponseEntity.ok(
+                userMapper.mapUserToDto(
+                        userService.deleteUserById(userId)
+                )
+        );
     }
 
     @PostMapping("/register")
