@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -57,5 +58,12 @@ public class UserService {
         userMetricService.processCreation(user);
         log.debug("User created: " + user);
         return createdUser;
+    }
+
+    public User deleteUserById(int userId) throws NoSuchElementException {
+        User user = userRepository.findById(userId).orElseThrow();
+        userRepository.delete(user);
+
+        return user;
     }
 }
