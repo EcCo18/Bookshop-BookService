@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: user-service-app
-          image: ecco18/user-service:v11
+          image: ecco18/user-service:v12
           env:
             - name: DATABASE_USERNAME
               value: "database_username"

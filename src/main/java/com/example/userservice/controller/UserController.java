@@ -36,7 +36,7 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/{userId}") // error handling req
     public ResponseEntity<UserDto> deleteUserById(@PathVariable("userId") int userId) {
         log.info("received DELETE for user with id: " + userId);
         return ResponseEntity.ok(
